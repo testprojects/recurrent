@@ -29,6 +29,7 @@ if __name__ == "__main__":
 	
 	carre = input(u'Enter x,y left bottom and x,y right top (example: 1,2,4,5):')
 	step = int(input(u'Enter step diagonal (example: 2):'))
+	shift = int(input(u'Enter shift (example: 20):'))
 	
 	carre = carre.split(',')
 	points = []
@@ -43,44 +44,45 @@ if __name__ == "__main__":
 	# canvas = Canvas(width=800, height=600, bg='white')
 	# canvas.pack(expand=YES, fill=BOTH)
 	
-	for line in lines:
-		in_range = False
-		x, y = line.decode('utf8').strip().split(":")
-		#x_max = max(x_max, int(x))
-		#y_max = max(y_max, int(y))
-		
-		# canvas.create_line(x, y, x, y)
-		
-		if int(x) > int(carre[0]) and int(y) > int(carre[1]) and int(x) < int(carre[2]) and int(y) < int(carre[3]):
-			in_carre.append((x, y))
-			in_range = True
-		elif ((int(x) == int(carre[0]) or int(x) == int(carre[2])) and int(y) >= int(carre[1]) and int(y) <= int(carre[3])) or ((int(y) == int(carre[1]) or int(y) == int(carre[3])) and int(x) >= int(carre[0]) and int(x) <= int(carre[2])):
-			on_carre.append((x, y))
-			in_range = True
-		
-		for y0 in range(int(carre[1]), int(carre[3]), step):
-			if (int(y) - y0) == (int(x) - int(carre[0])) and in_range:
-				on_diagonal_45.append((x, y))
-				
-		for x0 in range(int(carre[0]) + step, int(carre[2]), step):
-			if (int(y) - int(carre[1])) == (int(x) - x0) and in_range:
-				on_diagonal_45.append((x, y))
-				
-		for y0 in range(int(carre[1]), int(carre[3]), step):
-			if (int(y) - y0) == -1 * (int(x) - int(carre[0])) and in_range:
-				on_diagonal_135.append((x, y))
-				
-		for x0 in range(int(carre[0]), int(carre[2]), step):
-			if (int(y) - int(carre[3])) == -1 * (int(x) - x0) and in_range:
-				on_diagonal_135.append((x, y))
-				
-		for y0 in range(int(carre[1]), int(carre[3]), step):
-			if int(y) == y0 and in_range:
-				horizontal.append((x, y))
-				
-		for x0 in range(int(carre[0]), int(carre[2]), step):
-			if int(x) == x0 and in_range:
-				vertical.append((x, y))
+	for i in range(0, shift):
+		for line in lines:
+			in_range = False
+			x, y = line.decode('utf8').strip().split(":")
+			#x_max = max(x_max, int(x))
+			#y_max = max(y_max, int(y))
+			
+			# canvas.create_line(x, y, x, y)
+			
+			if int(x) > int(carre[0]) + i and int(y) > int(carre[1]) + i and int(x) < int(carre[2]) + i and int(y) < int(carre[3]) + i:
+				in_carre.append((x, y))
+				in_range = True
+			elif ((int(x) == (int(carre[0]) + i) or int(x) == (int(carre[2]) + i)) and int(y) >= (int(carre[1]) + i) and int(y) <= (int(carre[3]) + i)) or ((int(y) == (int(carre[1]) + i) or int(y) == (int(carre[3]) + i)) and int(x) >= (int(carre[0]) + i) and int(x) <= (int(carre[2]) + i)):
+				on_carre.append((x, y))
+				in_range = True
+			
+			for y0 in range(int(carre[1]) + i, int(carre[3]) + i, step):
+				if (int(y) - y0) == (int(x) - int(carre[0]) + i) and in_range:
+					on_diagonal_45.append((x, y))
+					
+			for x0 in range(int(carre[0]) + i + step, int(carre[2]) + i, step):
+				if (int(y) - int(carre[1]) + i) == (int(x) - x0) and in_range:
+					on_diagonal_45.append((x, y))
+					
+			for y0 in range(int(carre[1]) + i, int(carre[3]) + i, step):
+				if (int(y) - y0) == -1 * (int(x) - (int(carre[0]) + i)) and in_range:
+					on_diagonal_135.append((x, y))
+					
+			for x0 in range(int(carre[0]) + i, int(carre[2]) + i, step):
+				if (int(y) - (int(carre[3]) + i)) == -1 * (int(x) - x0) and in_range:
+					on_diagonal_135.append((x, y))
+					
+			for y0 in range(int(carre[1]) + i, int(carre[3]) + i, step):
+				if int(y) == y0 and in_range:
+					horizontal.append((x, y))
+					
+			for x0 in range(int(carre[0]) + i, int(carre[2]) + i, step):
+				if int(x) == x0 and in_range:
+					vertical.append((x, y))
 	
 	# canvas.create_line(10, 10 + y_max, x_max, 10 + y_max)
 	# canvas.create_line(10, 10, 10, y_max)
